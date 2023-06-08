@@ -265,28 +265,56 @@
 //   console.log('High five!');
 // };
 
-class Person {
-  constructor(firstName, birthYear) {
-    this.firstName = firstName;
-    this.birthYear = birthYear;
-  }
+//class Person {
+//  constructor(firstName, birthYear) {
+//    this.firstName = firstName;
+//    this.birthYear = birthYear;
+//  }
 
-  // Методы добавляются в свойство .prototype
+//  // Методы добавляются в свойство .prototype
+//  printAge() {
+//    console.log(2021 - this.birthYear);
+//  }
+
+//  greet() {
+//    console.log(`Hello! My name is ${this.firstName}!`);
+//  }
+
+//  // Статический метод
+//  static highFive() {
+//    console.log('High five!');
+//  }
+//}
+
+//Person.highFive();
+
+//const jack = new Person('Jack', 1999);
+//// jack.highFive();
+
+//////////////////////////////////////////////////////////////////////
+// Object.create()
+
+const PersonProto = {
   printAge() {
     console.log(2021 - this.birthYear);
-  }
+  },
 
-  greet() {
-    console.log(`Hello! My name is ${this.firstName}!`);
-  }
+  initPerson(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
 
-  // Статический метод
-  static highFive() {
-    console.log('High five!');
-  }
-}
+const jack = Object.create(PersonProto);
+console.log(jack);
 
-Person.highFive();
+jack.name = 'Jack';
+jack.birthYear = 2000;
 
-const jack = new Person('Jack', 1999);
-// jack.highFive();
+jack.printAge();
+
+console.log(Object.getPrototypeOf(jack) === PersonProto);
+
+const jane = Object.create(PersonProto);
+jane.initPerson('Jane', 2002);
+jane.printAge();
