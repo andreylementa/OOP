@@ -379,43 +379,106 @@
 
 // Наследование "Классов". Функции-Конструкторы
 
-const Person = function (firstName, birthYear) {
-  this.firstName = firstName;
-  this.birthYear = birthYear;
+//const Person = function (firstName, birthYear) {
+//  this.firstName = firstName;
+//  this.birthYear = birthYear;
+//};
+
+//Person.prototype.printAge = function () {
+//  console.log(2021 - this.birthYear);
+//};
+
+//const Student = function (firstName, birthYear, dept) {
+//  Person.call(this, firstName, birthYear);
+//  this.dept = dept;
+//};
+
+//// Связываем прототипы
+//Student.prototype = Object.create(Person.prototype);
+
+//// Student.prototype = Person.prototype;
+
+//Student.prototype.introduce = function () {
+//  console.log(
+//    `My name is ${this.firstName} and I study at the "${this.dept}" department.`
+//  );
+//};
+
+//const jack = new Student('Jack', 2000, 'Programming');
+//console.log(jack);
+//jack.introduce();
+//jack.printAge();
+
+//// console.log(jack.__proto__);
+//console.log(Object.getPrototypeOf(jack));
+//console.log(Object.getPrototypeOf(Object.getPrototypeOf(jack)));
+
+//console.log(jack instanceof Student);
+//console.log(jack instanceof Person);
+//console.log(jack instanceof Object);
+
+//Student.prototype.constructor = Student;
+//console.dir(Student.prototype.constructor);
+
+//////////////////////////////////////////////////////////////////////
+// Задание 3
+
+// 1. Используйте функцию-конструктор ElectricCar для реализации электрического автомобиля в качестве дочернего «класса» Car. Помимо названия и текущей скорости, у электромобиля также есть текущий заряд аккумулятора в % (свойство battery).
+// 2. Реализуйте метод chargeBattery, который принимает аргумент chargeLevel и устанавливает для заряда аккумулятора это значение.
+// 3. Реализуйте метод accelerate, который будет увеличивать скорость автомобиля на 10 и снижать заряд аккумулятора на 1% и затем выводит в консоль такое сообщение: «Тесла едет со скоростью 120 км / ч, с зарядом 32%».
+// 4. Создайте электромобиль и поэкспериментируйте с методами accelerate() и break(), chargeBattery() (зарядите до 80%). Обратите внимание, что происходит, когда вы «ускоряетесь»! Подсказка: просмотрите определение полиморфизма
+// Тестовые данные:
+// Тесла едет со скоростью 100 км / ч, с зарядом 33%
+
+const Car = function (name, speed) {
+  this.name = name;
+  this.speed = speed;
 };
 
-Person.prototype.printAge = function () {
-  console.log(2021 - this.birthYear);
+Car.prototype.accelerate = function () {
+  this.speed += 5;
+  console.log(`${this.name} двигается со скоростью ${this.speed} км/ч.`);
 };
 
-const Student = function (firstName, birthYear, dept) {
-  Person.call(this, firstName, birthYear);
-  this.dept = dept;
+Car.prototype.breake = function () {
+  this.speed -= 5;
+  console.log(`${this.name} двигается со скоростью ${this.speed} км/ч.`);
 };
 
-// Связываем прототипы
-Student.prototype = Object.create(Person.prototype);
+const ElectricCar = function (name, speed, battery) {
+  Car.call(this, name, speed);
+  this.battery = battery;
+};
 
-// Student.prototype = Person.prototype;
+ElectricCar.prototype = Object.create(Car.prototype);
 
-Student.prototype.introduce = function () {
+ElectricCar.prototype.chargeBattery = function (chargeLevel) {
+  this.battery = chargeLevel;
+};
+
+ElectricCar.prototype.accelerate = function () {
+  this.speed += 10;
+  this.battery -= 1;
   console.log(
-    `My name is ${this.firstName} and I study at the "${this.dept}" department.`
+    `${this.name} едет со скоростью ${this.speed} км / ч, с зарядом ${this.battery}%`
   );
 };
 
-const jack = new Student('Jack', 2000, 'Programming');
-console.log(jack);
-jack.introduce();
-jack.printAge();
+const tesla = new ElectricCar('Тесла', 100, 33);
+console.log(tesla);
+tesla.chargeBattery(80);
+console.log(tesla);
 
-// console.log(jack.__proto__);
-console.log(Object.getPrototypeOf(jack));
-console.log(Object.getPrototypeOf(Object.getPrototypeOf(jack)));
+tesla.breake();
+tesla.breake();
+tesla.breake();
 
-console.log(jack instanceof Student);
-console.log(jack instanceof Person);
-console.log(jack instanceof Object);
+tesla.accelerate();
 
-Student.prototype.constructor = Student;
-console.dir(Student.prototype.constructor);
+const bmw = new Car('BMW', 150);
+
+bmw.breake();
+bmw.breake();
+
+bmw.accelerate();
+bmw.accelerate();
