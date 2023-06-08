@@ -141,9 +141,72 @@
 // }
 
 // Class declaration
+//class Person {
+//  constructor(firstName, birthYear) {
+//    this.firstName = firstName;
+//    this.birthYear = birthYear;
+//  }
+
+//  // Методы добавляются в свойство .prototype
+//  printAge() {
+//    console.log(2021 - this.birthYear);
+//  }
+
+//  greet() {
+//    console.log(`Hello! My name is ${this.firstName}!`);
+//  }
+//}
+
+//const jack = new Person('Jack', 2000);
+//console.log(jack);
+//jack.printAge();
+//console.log(jack.__proto__ === Person.prototype);
+//console.log(Object.getPrototypeOf(jack) === Person.prototype);
+
+//// Person.prototype.greet = function () {
+////   console.log(`Hello! My name is ${this.firstName}!`);
+//// };
+
+//jack.greet();
+
+// 1. Классы не "поднимаются" при помощи hoisting
+// 2. Классы являются "firts class citizens"
+// 3. Тело класса выполняется в strict режиме
+
+//////////////////////////////////////////////////////////////////////
+// Setters & Getters
+
+// const account = {
+//   owner: 'youra',
+//   transactions: [300, 500, -100, 600],
+
+//   lastTransaction() {
+//     return this.transactions.slice(-1).pop();
+//   },
+// };
+
+// console.log(account.lastTransaction());
+
+const account = {
+  owner: 'youra',
+  transactions: [300, 500, -100, 600],
+
+  get lastTransaction() {
+    return this.transactions.slice(-1).pop();
+  },
+
+  set lastTransaction(trans) {
+    this.transactions.push(trans);
+  },
+};
+
+console.log(account.lastTransaction);
+account.lastTransaction = 100;
+console.log(account.transactions);
+
 class Person {
-  constructor(firstName, birthYear) {
-    this.firstName = firstName;
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
     this.birthYear = birthYear;
   }
 
@@ -153,22 +216,29 @@ class Person {
   }
 
   greet() {
-    console.log(`Hello! My name is ${this.firstName}!`);
+    console.log(`Hello! My name is ${this.fullName}!`);
+  }
+
+  get age() {
+    return 2021 - this.birthYear;
+  }
+
+  // Установить значение в уже существующее свойство
+  set fullName(personName) {
+    console.log(personName);
+    if (personName.includes(' ')) {
+      this._fullName = personName;
+    } else {
+      alert(`Полное имя должно состоять из имени и фамилии!`);
+    }
+  }
+
+  get fullName() {
+    return this._fullName;
   }
 }
 
-const jack = new Person('Jack', 2000);
+const jack = new Person('Jack White', 2000);
 console.log(jack);
-jack.printAge();
-console.log(jack.__proto__ === Person.prototype);
-console.log(Object.getPrototypeOf(jack) === Person.prototype);
-
-// Person.prototype.greet = function () {
-//   console.log(`Hello! My name is ${this.firstName}!`);
-// };
-
-jack.greet();
-
-// 1. Классы не "поднимаются" при помощи hoisting
-// 2. Классы являются "firts class citizens"
-// 3. Тело класса выполняется в strict режиме
+const jane = new Person('Jane Red', 2000);
+console.log(jane.fullName);
