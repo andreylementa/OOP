@@ -187,26 +187,87 @@
 
 // console.log(account.lastTransaction());
 
-const account = {
-  owner: 'youra',
-  transactions: [300, 500, -100, 600],
+//const account = {
+//  owner: 'youra',
+//  transactions: [300, 500, -100, 600],
 
-  get lastTransaction() {
-    return this.transactions.slice(-1).pop();
-  },
+//  get lastTransaction() {
+//    return this.transactions.slice(-1).pop();
+//  },
 
-  set lastTransaction(trans) {
-    this.transactions.push(trans);
-  },
-};
+//  set lastTransaction(trans) {
+//    this.transactions.push(trans);
+//  },
+//};
 
-console.log(account.lastTransaction);
-account.lastTransaction = 100;
-console.log(account.transactions);
+//console.log(account.lastTransaction);
+//account.lastTransaction = 100;
+//console.log(account.transactions);
+
+//class Person {
+//  constructor(fullName, birthYear) {
+//    this.fullName = fullName;
+//    this.birthYear = birthYear;
+//  }
+
+//  // Методы добавляются в свойство .prototype
+//  printAge() {
+//    console.log(2021 - this.birthYear);
+//  }
+
+//  greet() {
+//    console.log(`Hello! My name is ${this.fullName}!`);
+//  }
+
+//  get age() {
+//    return 2021 - this.birthYear;
+//  }
+
+//  // Установить значение в уже существующее свойство
+//  set fullName(personName) {
+//    console.log(personName);
+//    if (personName.includes(' ')) {
+//      this._fullName = personName;
+//    } else {
+//      alert(`Полное имя должно состоять из имени и фамилии!`);
+//    }
+//  }
+
+//  get fullName() {
+//    return this._fullName;
+//  }
+//}
+
+//const jack = new Person('Jack White', 2000);
+//console.log(jack);
+//const jane = new Person('Jane Red', 2000);
+//console.log(jane.fullName);
+
+//////////////////////////////////////////////////////////////////////
+// Статические Методы
+
+// const Person = function (firstName, birthYear) {
+//   // Instance properties - свойства экземпляра
+//   this.firstName = firstName;
+//   this.birthYear = birthYear;
+
+//   // Никогда не делать этого
+//   // this.printAge = function() {
+//   //   console.log(2021 - this.birthYear);
+//   // };
+// };
+
+// Person.highFive = function () {
+//   console.log('High five!');
+// };
+
+// Person.prototype.highFive = function () {
+//   console.log('High five!');
+// };
 
 class Person {
-  constructor(fullName, birthYear) {
-    this.fullName = fullName;
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
     this.birthYear = birthYear;
   }
 
@@ -216,29 +277,16 @@ class Person {
   }
 
   greet() {
-    console.log(`Hello! My name is ${this.fullName}!`);
+    console.log(`Hello! My name is ${this.firstName}!`);
   }
 
-  get age() {
-    return 2021 - this.birthYear;
-  }
-
-  // Установить значение в уже существующее свойство
-  set fullName(personName) {
-    console.log(personName);
-    if (personName.includes(' ')) {
-      this._fullName = personName;
-    } else {
-      alert(`Полное имя должно состоять из имени и фамилии!`);
-    }
-  }
-
-  get fullName() {
-    return this._fullName;
+  // Статический метод
+  static highFive() {
+    console.log('High five!');
   }
 }
 
-const jack = new Person('Jack White', 2000);
-console.log(jack);
-const jane = new Person('Jane Red', 2000);
-console.log(jane.fullName);
+Person.highFive();
+
+const jack = new Person('Jack', 1999);
+// jack.highFive();
