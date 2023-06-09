@@ -551,30 +551,112 @@
 //////////////////////////////////////////////////////////////////////
 // Наследование "Классов". Object.create()
 
-const PersonProto = {
-  printAge() {
-    console.log(2021 - this.birthYear);
-  },
+//const PersonProto = {
+//  printAge() {
+//    console.log(2021 - this.birthYear);
+//  },
 
-  initPerson(firstName, birthYear) {
-    this.firstName = firstName;
-    this.birthYear = birthYear;
-  },
-};
+//  initPerson(firstName, birthYear) {
+//    this.firstName = firstName;
+//    this.birthYear = birthYear;
+//  },
+//};
 
-const StudentProto = Object.create(PersonProto);
-StudentProto.initStudent = function (firstName, birthYear, dept) {
-  PersonProto.initPerson.call(this, firstName, birthYear);
-  this.dept = dept;
-};
+//const StudentProto = Object.create(PersonProto);
+//StudentProto.initStudent = function (firstName, birthYear, dept) {
+//  PersonProto.initPerson.call(this, firstName, birthYear);
+//  this.dept = dept;
+//};
 
-StudentProto.introduce = function () {
-  console.log(
-    `My name is ${this.firstName} and I study at the "${this.dept}" department.`
-  );
-};
+//StudentProto.introduce = function () {
+//  console.log(
+//    `My name is ${this.firstName} and I study at the "${this.dept}" department.`
+//  );
+//};
 
-const jack = Object.create(StudentProto);
-jack.initStudent('Jack', 2003, 'Programming');
-jack.introduce();
-jack.printAge();
+//const jack = Object.create(StudentProto);
+//jack.initStudent('Jack', 2003, 'Programming');
+//jack.introduce();
+//jack.printAge();
+
+//////////////////////////////////////////////////////////////////////
+// Ещё Один Пример Класса
+
+// Public fields
+// Private fields
+// Public methods
+// Private methods
+
+class Account {
+  // Public fields
+  local = navigator.language;
+
+  // Private fields
+  #transactions = [];
+  #pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    // Protected properties with _
+    this.#pin = pin;
+    // this._transactions = [];
+    // this.local = navigator.language;
+
+    console.log(`Спасибо что открыли счёт в нашем банке, ${owner}!`);
+  }
+
+  // Public interface (methods) - API
+  deposit(value) {
+    this.#transactions.push(value);
+    return this;
+  }
+
+  withdraw(value) {
+    // this.transactions.push(-value);
+    this.deposit(-value);
+    return this;
+  }
+
+  setDefaultPin() {
+    this.#pin = '0000';
+  }
+
+  getTransactions() {
+    return this.#transactions;
+  }
+
+  requestLoan(value) {
+    if (this.#approveLoan(value)) {
+      this.deposit(value);
+      console.log(`Займ утверждён!`);
+      return this;
+    }
+  }
+
+  static greet() {
+    console.log('Добро пожаловать в "Просто Банк"!');
+  }
+
+  // Private methods
+  // Protected methods with _
+  #approveLoan(value) {
+    return true;
+  }
+}
+
+const account1 = new Account('Джек', 'USD', 1111);
+
+// account1.#transactions.push(500);
+// account1.#transactions.push(-100);
+
+account1.deposit(500);
+account1.withdraw(100);
+account1.requestLoan(10000);
+// account1.#approveLoan(10000);
+account1.setDefaultPin();
+
+console.log(account1);
+// console.log(account1.#pin);
+console.log(account1.getTransactions());
+Account.greet();
